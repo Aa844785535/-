@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/speakeasyjs/speakeasy/master/dist/speakeasy.bundle.js"></script>
+</head>
+<body>
+
+<div>
+    <label for="secretKey">Enter Secret Key:</label>
+    <input type="text" id="secretKey" placeholder="Enter your secret key">
+    <button onclick="generateOTP()">Generate OTP</button>
+</div>
+
+<div>
+    <p id="otpOutput"></p>
+</div>
+
+<script>
+    function generateOTP() {
+        var secretKey = document.getElementById('secretKey').value;
+        
+        // Ensure the secret key is not empty
+        if (!secretKey) {
+            alert('Please enter a secret key.');
+            return;
+        }
+
+        // Convert the secret key to base32
+        var encodedSecret = base32.encode(secretKey);
+
+        // Generate OTP
+        var otp = speakeasy.totp({
+            secret: encodedSecret,
+            encoding: 'base32',
+            digits: 8
+        });
+
+        // Display OTP
+        document.getElementById('otpOutput').innerText = 'Generated OTP: ' + otp;
+    }
+</script>
+
+</body>
+</html>
